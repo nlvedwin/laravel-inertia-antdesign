@@ -33,18 +33,16 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+        <a-form layout="vertical" @submit.prevent="submit">
+            <a-form-item label="Email">
+                <a-input id="email" type="email" class="mt-1 block w-full" v-model:value="form.email" required autofocus autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            </a-form-item>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+            <a-form-item label="Password">
+                <a-input id="password" type="password" class="mt-1 block w-full" v-model:value="form.password" required autocomplete="current-password" />
                 <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+            </a-form-item>
 
             <div class="block mt-4">
                 <label class="flex items-center">
@@ -58,10 +56,8 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
+                <a-button html-type="submit" :loading="form.processing" class="ml-4" type="primary" >Login </a-button>
             </div>
-        </form>
+        </a-form>
     </GuestLayout>
 </template>
