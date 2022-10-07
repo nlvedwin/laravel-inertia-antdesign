@@ -1,81 +1,91 @@
-<script>
-import { UserOutlined, VideoCameraOutlined, UploadOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
-export default defineComponent({
-    components: {
-        UserOutlined,
-        VideoCameraOutlined,
-        UploadOutlined,
-    },
+<script setup>
+import { UserOutlined, HomeOutlined, MenuUnfoldOutlined, MenuFoldOutlined, FolderOutlined, CalendarOutlined, FolderOpenOutlined, LineChartOutlined, DownOutlined } from '@ant-design/icons-vue';
+import { Inertia } from '@inertiajs/inertia';
+import { ref, watch } from 'vue';
 
-    setup() {
-        const onCollapse = (collapsed, type) => {
-            console.log(collapsed, type);
-        };
+const collapsed = ref(false);
+const emits = defineEmits(['selectedComponent']);
+const props = defineProps({
+    index: String
+})
 
-        const onBreakpoint = broken => {
-            console.log(broken);
-        };
+const menus = ref(
+    [
+        {
+            title: 'Dashboard',
+            icon: HomeOutlined
+        },
+        {
+            title: 'Team',
+            icon: UserOutlined
+        },
+        {
+            title: 'Projects',
+            icon: FolderOutlined
+        },
+        {
+            title: 'Calendar',
+            icon: CalendarOutlined
+        },
+        {
+            title: 'Documents',
+            icon: FolderOpenOutlined
+        },
+        {
+            title: 'Reports',
+            icon: LineChartOutlined
+        },
+    ]
+)
+const selectedMenu = ref([Number(props.index)]);
 
-        return {
-            selectedKeys: ref(['4']),
-            onCollapse,
-            onBreakpoint,
-        };
-    },
+const onClick = ({
+    key,
+}) => {
+    Inertia.post('/logout')
+};
 
-});
+watch(selectedMenu, (value) => {
+    Inertia.get('/dashboard/' + menus.value[value[0]].title, value[0]);
+    emits('selectedComponent', value[0])
+})
+
 </script>
 <template>
-    <a-layout>
-        <a-layout-sider breakpoint="lg" collapsed-width="0" @collapse="onCollapse" @breakpoint="onBreakpoint">
-            <div class="logo" />
-            <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-                <a-menu-item key="1">
-                    <user-outlined />
-                    <span class="nav-text">nav 1</span>
-                </a-menu-item>
-                <a-menu-item key="2">
-                    <video-camera-outlined />
-                    <span class="nav-text">nav 2</span>
-                </a-menu-item>
-                <a-menu-item key="3">
-                    <upload-outlined />
-                    <span class="nav-text">nav 3</span>
-                </a-menu-item>
-                <a-menu-item key="4">
-                    <user-outlined />
-                    <span class="nav-text">nav 4</span>
+    <a-layout class="h-screen">
+        <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="280">
+            <div class="p-5">
+                <img src="/assets/logo_white.png">
+            </div>
+            <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedMenu">
+                <a-menu-item v-for="(menu, index) of menus" :key="index">
+                    <component :is="menu.icon" style="font-size: 25px;"></component>
+                    <span class="nav-text p-2" style="font-size: 15px;">{{ menu.title }}</span>
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
         <a-layout>
-            <a-layout-header :style="{ background: '#fff', padding: 0 }" />
-            <a-layout-content :style="{ margin: '24px 16px 0' }">
-                <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">content</div>
+            <a-layout-header style="background: #fff; padding-left: 25px">
+                <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
+                <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+                <a-dropdown class="float-right mt-3">
+                    <a-button class="ant-dropdown-link" @click.prevent>
+                        <UserOutlined />
+                        {{ $page.props.auth.user.name }}
+                        <DownOutlined />
+                    </a-button>
+                    <template #overlay>
+                        <a-menu @click="onClick">
+                            <a-menu-item key="1">Logout</a-menu-item>
+                        </a-menu>
+                    </template>
+                </a-dropdown>
+            </a-layout-header>
+            <h1 class="text-3xl m-5">{{ menus[selectedMenu[0]] !== undefined ? menus[selectedMenu[0]].title :
+            'Dashboard' }}</h1>
+            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
+                <slot></slot>
             </a-layout-content>
-            <a-layout-footer style="text-align: center">
-                Ant Design ©2018 Created by Ant UED
-            </a-layout-footer>
         </a-layout>
     </a-layout>
 </template>
-<style>
-#components-layout-demo-responsive .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px;
-}
-
-.site-layout-sub-header-background {
-    background: #fff;
-}
-
-.site-layout-background {
-    background: #fff;
-}
-
-[data-theme='dark'] .site-layout-sub-header-background {
-    background: #141414;
-}
-</style>
