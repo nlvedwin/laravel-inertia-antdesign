@@ -54,7 +54,7 @@ watch(selectedMenu, (value) => {
 <template>
     <a-layout class="h-screen">
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="280">
-            <div class="p-5">
+            <div class="p-5 mb-7">
                 <img src="/assets/logo_white.png">
             </div>
             <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedMenu">
@@ -64,7 +64,7 @@ watch(selectedMenu, (value) => {
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
-        <a-layout>
+        <a-layout class="h-screen">
             <a-layout-header style="background: #fff; padding-left: 25px">
                 <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
                 <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
@@ -86,6 +86,9 @@ watch(selectedMenu, (value) => {
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
                 <slot></slot>
             </a-layout-content>
+            <a-layout-footer style="text-align: center">
+                Ant Design ©2018 Created by Ant UED
+            </a-layout-footer>
         </a-layout>
     </a-layout>
 </template>
