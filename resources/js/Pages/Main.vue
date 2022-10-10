@@ -11,7 +11,8 @@ import Team from './ToDisplayPages/Team.vue';
 const props = defineProps({
     request: String,
     PersistentLayout,
-    index: String
+    index: String,
+    object: String
 })
 const listComponents = [Dashboard, Team, Projects, Calendar, Documents,  Reports];
 let index = ref(Number(props.index));
@@ -25,7 +26,7 @@ const getSelectedComponent = (value) => {
     <Head :title="props.request" />
 
     <PersistentLayout @selectedComponent="getSelectedComponent" :index="props.index">
-        <component :is="listComponents[index]"></component>
+        <component :is="listComponents[index]" :selectedProject="props.object"></component>
     </PersistentLayout>
 </template>
     

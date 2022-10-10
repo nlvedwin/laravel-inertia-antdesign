@@ -1,9 +1,6 @@
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
 const form = useForm({
@@ -85,9 +82,11 @@ const submit = () => {
                     Already registered?
                 </Link>
                 <a-button
-                    class="ml-4"
                     :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
+                    html-type="submit"
+                    :loading="form.processing"
+                    class="ml-4"
+                    type="primary"
                     >Register
                 </a-button>
             </div>

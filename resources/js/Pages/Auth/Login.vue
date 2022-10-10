@@ -2,9 +2,6 @@
 import Checkbox from "@/Components/Checkbox.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
 defineProps({
@@ -72,6 +69,7 @@ const submit = () => {
                     :loading="form.processing"
                     class="ml-4"
                     type="primary"
+                    :class="{ 'opacity-25': form.processing }"
                     >Login
                 </a-button>
             </div>
