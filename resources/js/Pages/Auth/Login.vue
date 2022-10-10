@@ -52,10 +52,6 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
-                </Link>
-
                 <a-button html-type="submit" :loading="form.processing" class="ml-4" type="primary" >Login </a-button>
             </div>
         </a-form>
