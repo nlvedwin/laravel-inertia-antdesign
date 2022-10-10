@@ -31,6 +31,7 @@ const menus = ref([
     {
         title: "Projects",
         icon: FolderOutlined,
+        submenu: ["Project 1", "Project 2", "Project 3"],
     },
     {
         title: "Calendar",
@@ -39,6 +40,7 @@ const menus = ref([
     {
         title: "Documents",
         icon: FolderOpenOutlined,
+        submenu: ["Document 1", "Document 2", "Document 3"],
     },
     {
         title: "Reports",
@@ -52,7 +54,12 @@ const onClick = ({ key }) => {
 };
 
 watch(selectedMenu, (value) => {
-    Inertia.get("/dashboard/" + menus.value[value[0]].title, value[0]);
+    value[0].project === undefined
+        ? Inertia.get("/dashboard/" + menus.value[value[0]].title, value[0])
+        : Inertia.get(
+              "/dashboard/" + menus.value[value[0].index].title,
+              value[0].index
+          );
     emits("selectedComponent", value[0]);
 });
 </script>
@@ -72,15 +79,35 @@ watch(selectedMenu, (value) => {
                 mode="inline"
                 v-model:selectedKeys="selectedMenu"
             >
-                <a-menu-item v-for="(menu, index) of menus" :key="index">
-                    <component
-                        :is="menu.icon"
-                        style="font-size: 25px"
-                    ></component>
-                    <span class="nav-text p-2" style="font-size: 15px">{{
-                        menu.title
-                    }}</span>
-                </a-menu-item>
+                <a v-for="(menu, index) of menus">
+                    <a-menu-item v-if="menu.submenu === undefined" :key="index">
+                        <component
+                            :is="menu.icon"
+                            style="font-size: 25px"
+                        ></component>
+                        <span class="nav-text p-2" style="font-size: 15px">{{
+                            menu.title
+                        }}</span>
+                    </a-menu-item>
+                    <a-sub-menu v-else :key="'sub_menu' + index">
+                        <template #icon>
+                            <component
+                                :is="menu.icon"
+                                style="font-size: 25px"
+                            ></component>
+                        </template>
+                        <template #title>{{ menu.title }}</template>
+                        <a-menu-item
+                            v-for="(project, i) of menu.submenu"
+                            :key="{ index: index, project: project, pro_index: i }"
+                            >{{ project }}</a-menu-item
+                        >
+                        <a-sub-menu key="sub1-2" title="Submenu">
+                            <a-menu-item key="5">Option 5</a-menu-item>
+                            <a-menu-item key="6">Option 6</a-menu-item>
+                        </a-sub-menu>
+                    </a-sub-menu>
+                </a>
             </a-menu>
         </a-layout-sider>
         <a-layout class="h-screen">
@@ -96,12 +123,11 @@ watch(selectedMenu, (value) => {
                     @click="() => (collapsed = !collapsed)"
                 />
                 <a-dropdown class="float-right mt-3">
-                    <img class="w-10 h-10 rounded-full" :src="'/' + $page.props.auth.user.email + '.png'" alt="">
-                    <!-- <a-button class="ant-dropdown-link" @click.prevent>
-                        <TeamOutlined />
-                        {{ $page.props.auth.user.name }}
-                        <DownOutlined />
-                    </a-button> -->
+                    <img
+                        class="w-10 h-10 rounded-full"
+                        :src="'/' + $page.props.auth.user.email + '.png'"
+                        alt=""
+                    />
                     <template #overlay>
                         <a-menu @click="onClick">
                             <a-menu-item key="1">Logout</a-menu-item>
