@@ -15,8 +15,8 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("register"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
@@ -25,57 +25,49 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput
+        <a-form layout="vertical" @submit.prevent="submit">
+            <a-form-item label="Name">
+                <a-input
                     id="name"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.name"
+                    v-model:value="form.name"
                     required
                     autofocus
                     autocomplete="name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
+            </a-form-item>
+            <a-form-item label="Email">
+                <a-input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
-                    v-model="form.email"
+                    v-model:value="form.email"
                     required
                     autocomplete="username"
                 />
                 <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            </a-form-item>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
+            <a-form-item label="Password">
+                <a-input
                     id="password"
                     type="password"
                     class="mt-1 block w-full"
-                    v-model="form.password"
+                    v-model:value="form.password"
                     required
                     autocomplete="new-password"
                 />
                 <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+            </a-form-item>
 
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-                <TextInput
+            <a-form-item label="Confirm Password">
+                <a-input
                     id="password_confirmation"
                     type="password"
                     class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
+                    v-model:value="form.password_confirmation"
                     required
                     autocomplete="new-password"
                 />
@@ -83,7 +75,7 @@ const submit = () => {
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
-            </div>
+            </a-form-item>
 
             <div class="flex items-center justify-end mt-4">
                 <Link
@@ -92,15 +84,13 @@ const submit = () => {
                 >
                     Already registered?
                 </Link>
-
-                <PrimaryButton
+                <a-button
                     class="ml-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
+                    >Register
+                </a-button>
             </div>
-        </form>
+        </a-form>
     </GuestLayout>
 </template>
