@@ -69,7 +69,7 @@ watch(selectedMenu, (value) => {
             v-model:collapsed="collapsed"
             :trigger="null"
             collapsible
-            width="280"
+            width="240"
         >
             <div class="p-5 mb-7">
                 <img src="/assets/logo_white.png" />
@@ -99,7 +99,11 @@ watch(selectedMenu, (value) => {
                         <template #title>{{ menu.title }}</template>
                         <a-menu-item
                             v-for="(project, i) of menu.submenu"
-                            :key="{ index: index, project: project, pro_index: i }"
+                            :key="{
+                                index: index,
+                                project: project,
+                                pro_index: i,
+                            }"
                             >{{ project }}</a-menu-item
                         >
                         <a-sub-menu key="sub1-2" title="Submenu">
@@ -123,11 +127,11 @@ watch(selectedMenu, (value) => {
                     @click="() => (collapsed = !collapsed)"
                 />
                 <a-dropdown class="float-right mt-3">
-                    <img
-                        class="w-10 h-10 rounded-full"
-                        :src="'/' + $page.props.auth.user.email + '.png'"
-                        alt=""
-                    />
+                    <a-button class="ant-dropdown-link" @click.prevent>
+                        {{ $page.props.auth.user.name }}
+                        <DownOutlined />
+                    </a-button>
+
                     <template #overlay>
                         <a-menu @click="onClick">
                             <a-menu-item key="1">Logout</a-menu-item>

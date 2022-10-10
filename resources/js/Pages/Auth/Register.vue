@@ -5,9 +5,6 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import UploadImage from "@/Components/UploadImage.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { ref } from "vue";
 
 const form = useForm({
     name: "",
@@ -17,13 +14,7 @@ const form = useForm({
     terms: false,
 });
 
-const getImageUrl = ref("");
-
-const imageUploaded = (value) => {
-    getImageUrl.value = value;
-};
 const submit = () => {
-    Inertia.post("/upload-image", { image: getImageUrl.value, email: form.email });
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -35,9 +26,6 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
-            <div>
-                <UploadImage @image-emit="imageUploaded" />
-            </div>
             <div>
                 <InputLabel for="name" value="Name" />
                 <TextInput
