@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ShowComponentsController;
+use App\Http\Controllers\UploadImageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,7 +32,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Main');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+Route::post('/upload-image', [UploadImageController::class, 'imageUploadPost'])->name('upload-image');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/{params}', [ShowComponentsController::class, 'index'])->name('dashboard');
