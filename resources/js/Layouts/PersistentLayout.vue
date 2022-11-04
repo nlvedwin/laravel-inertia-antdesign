@@ -48,7 +48,7 @@ const menus = ref([
     },
 ]);
 const selectedMenu = ref([Number(props.index)]);
-const openKeys = ref(['sub_menu' + props.index]);
+const openKeys = ref(["sub_menu" + props.index]);
 
 const onClick = ({ key }) => {
     Inertia.post("/logout");
@@ -61,13 +61,7 @@ watch(selectedMenu, (value) => {
               index: value[0].index,
               render: value[0].project,
           });
-    if(value[0].project) openKeys.value[0] = 'sub_menu' + value[0].index
-    emits(
-        "selectedComponent",
-        typeof value[0] !== "object"
-            ? value[0]
-            : menus.value[value[0].index].title
-    );
+    if (value[0].project) openKeys.value[0] = "sub_menu" + value[0].index;
 });
 </script>
 <template>
@@ -86,6 +80,7 @@ watch(selectedMenu, (value) => {
                 mode="inline"
                 v-model:selectedKeys="selectedMenu"
                 v-model:openKeys="openKeys"
+                :inline-collapsed="collapsed"
             >
                 <a v-for="(menu, index) of menus">
                     <a-menu-item v-if="menu.submenu === undefined" :key="index">
@@ -93,9 +88,12 @@ watch(selectedMenu, (value) => {
                             :is="menu.icon"
                             style="font-size: 25px"
                         ></component>
-                        <span v-if="!collapsed" class="nav-text p-2" style="font-size: 15px">{{
-                            menu.title
-                        }}</span>
+                        <span
+                            v-if="!collapsed"
+                            class="nav-text p-2"
+                            style="font-size: 15px"
+                            >{{ menu.title }}</span
+                        >
                     </a-menu-item>
                     <a-sub-menu v-else :key="'sub_menu' + index">
                         <template #icon>
@@ -104,7 +102,9 @@ watch(selectedMenu, (value) => {
                                 style="font-size: 25px"
                             ></component>
                         </template>
-                        <template #title v-if="!collapsed">{{ menu.title }}</template>
+                        <template #title v-if="!collapsed">{{
+                            menu.title
+                        }}</template>
                         <a-menu-item
                             v-for="(project, i) of menu.submenu"
                             :key="{
@@ -135,7 +135,11 @@ watch(selectedMenu, (value) => {
                     @click="() => (collapsed = !collapsed)"
                 />
                 <a-dropdown class="float-right">
-                    <a class="ant-dropdown-link" @click.prevent>
+                    <a
+                        class="ant-dropdown-link"
+                        style="font-size: 15px"
+                        @click.prevent
+                    >
                         {{ $page.props.auth.user.name }}
                         <DownOutlined />
                     </a>
@@ -148,9 +152,7 @@ watch(selectedMenu, (value) => {
                 </a-dropdown>
             </a-layout-header>
             <h1 class="text-3xl m-5">
-                {{
-                    $page.props.request
-                }}
+                {{ $page.props.request }}
             </h1>
             <a-layout-content
                 :style="{

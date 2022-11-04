@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ShowComponentsController;
 use App\Http\Controllers\UploadImageController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
