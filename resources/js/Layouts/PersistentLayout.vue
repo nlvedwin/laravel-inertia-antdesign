@@ -17,6 +17,7 @@ const collapsed = ref(false);
 const emits = defineEmits(["selectedComponent"]);
 const props = defineProps({
     index: String,
+    headerTitle: String
 });
 
 const menus = ref([
@@ -102,20 +103,19 @@ watch(selectedMenu, (value) => {
                 <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
                 <a-dropdown class="float-right">
                     <a class="ant-dropdown-link" style="font-size: 15px" @click.prevent>
-                        {{ $page.props.auth.user.name }}
+                        {{  $page.props.auth.user.name }}
                         <DownOutlined />
                     </a>
 
                     <template #overlay>
                         <a-menu>
-                            <a-menu-item key="1">Dark Mode</a-menu-item>
                             <a-menu-item key="2" @click="onClick">Logout</a-menu-item>
                         </a-menu>
                     </template>
                 </a-dropdown>
             </a-layout-header>
             <h1 class="text-3xl m-5">
-                {{ $page.props.request }}
+                {{ props.headerTitle ?? $page.props.request }}
             </h1>
             <a-layout-content :style="{
                 margin: '24px 16px',
