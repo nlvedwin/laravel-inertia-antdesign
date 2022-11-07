@@ -34,6 +34,6 @@ Route::get('/dashboard', function () {
 Route::post('/upload-image', [UploadImageController::class, 'imageUploadPost'])->name('upload-image');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/{params}', [ShowComponentsController::class, 'index'])->name('dashboard');
+    Route::get('/{projectName}/{params}', [ShowComponentsController::class, 'index'])->name('dashboard');
 });
 require __DIR__.'/auth.php';

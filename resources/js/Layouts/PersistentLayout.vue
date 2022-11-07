@@ -57,8 +57,8 @@ const onClick = ({ key }) => {
 
 watch(selectedMenu, (value) => {
     value[0].project === undefined
-        ? Inertia.get("/dashboard/" + menus.value[value[0]].title, value[0])
-        : Inertia.get("/dashboard/" + menus.value[value[0].index].title, {
+        ? Inertia.get("/laravel-inertia/" + menus.value[value[0]].title, value[0])
+        : Inertia.get("/laravel-inertia/" + menus.value[value[0].index].title, {
             index: value[0].index,
             render: value[0].project,
         });

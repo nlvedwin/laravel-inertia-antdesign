@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use function PHPUnit\Framework\isNull;
-
 class ShowComponentsController extends Controller
 {
-    public function index($params, Request $request)
+    public function index($projectName, $params, Request $request)
     {
         return Inertia::render('Main', [
             'request' => $params,
