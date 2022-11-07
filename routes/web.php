@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ShowComponentsController;
+use App\Http\Controllers\UploadImageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,17 +16,24 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+Route::redirect('/', 'login');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Main');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/upload-image', [UploadImageController::class, 'imageUploadPost'])->name('upload-image');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard/{params}', [ShowComponentsController::class, 'index'])->name('dashboard');
+});
 require __DIR__.'/auth.php';
