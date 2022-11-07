@@ -67,11 +67,12 @@ watch(selectedMenu, (value) => {
 </script>
 <template>
     <a-layout class="h-screen">
-        <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="240">
+        <a-layout-sider  :trigger="null" width="240" :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }">
             <div class="p-5 mb-7">
                 <img src="/assets/logo_white.png" />
             </div>
-            <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedMenu" v-model:openKeys="openKeys">
+            <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedMenu" v-model:openKeys="openKeys"
+                style="width: 240px">
                 <a v-for="(menu, index) of menus">
                     <a-menu-item v-if="menu.submenu === undefined" :key="index">
                         <component :is="menu.icon" style="font-size: 25px"></component>
@@ -97,13 +98,11 @@ watch(selectedMenu, (value) => {
                 </a>
             </a-menu>
         </a-layout-sider>
-        <a-layout class="h-screen">
+        <a-layout class="h-screen" :style="{ marginLeft: '250px' }">
             <a-layout-header style="background: #fff; padding-left: 25px">
-                <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
-                <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
                 <a-dropdown class="float-right">
                     <a class="ant-dropdown-link" style="font-size: 15px" @click.prevent>
-                        {{  $page.props.auth.user.name }}
+                        {{ $page.props.auth.user.name }}
                         <DownOutlined />
                     </a>
 
@@ -117,17 +116,14 @@ watch(selectedMenu, (value) => {
             <h1 class="text-3xl m-5">
                 {{ props.headerTitle ?? $page.props.request }}
             </h1>
-            <a-layout-content :style="{
+            <div :style="{
                 margin: '24px 16px',
                 padding: '24px',
                 background: '#fff',
-                minHeight: '280px',
+                height: '100%'
             }">
                 <slot></slot>
-            </a-layout-content>
-            <a-layout-footer style="text-align: center">
-                Ant Design ©2018 Created by Ant UED
-            </a-layout-footer>
+            </div>
         </a-layout>
     </a-layout>
 </template>
