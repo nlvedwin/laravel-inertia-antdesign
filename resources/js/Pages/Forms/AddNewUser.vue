@@ -11,11 +11,12 @@ const props = defineProps({
 const user = ref({});
 const age = ref(0);
 const generateAge = (value) => {
+    user.value.birthdate = new Date(value.$d).getFullYear() + '/' + ("0" + (new Date(value.$d).getMonth() + 1)).slice(-2) + '/' + ("0" + (new Date(value.$d).getDay() + 1)).slice(-2)
     age.value = new Date().getFullYear() - new Date(value.$d).getFullYear();
 };
 const dateFormat = "YYYY/MM/DD";
 
-const onFinish = () => {
+const onFinish = () => {    
     let type = props.toEditData ? 'put' : 'post'
     user.value.age = age.value;
     Inertia[type]("/users-management", user.value, {
@@ -49,7 +50,7 @@ onMounted(() => {
                 <a-date-picker
                     style="width: 100%"
                     @change="generateAge"
-                    :value="dayjs(user.birthdate, dateFormat)"
+                    :value="user.birthdate ? dayjs(user.birthdate, dateFormat) : user.birthdate"
                     :format="dateFormat"
                 />
             </a-form-item>
