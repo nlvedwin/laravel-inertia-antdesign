@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UsersManagement;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,8 @@ class ShowComponentsController extends Controller
         return Inertia::render('Main', [
             'request' => $params,
             'index' => is_numeric($request[0]) ? $request[0] : $request->index,
-            'object' => $request->render
+            'object' => $request->render,
+            'users' => $params === 'Users Management' ? UsersManagement::all() : ''
         ]);
     }
 }

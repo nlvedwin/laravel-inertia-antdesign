@@ -1,14 +1,8 @@
 <script setup>
 import {
-    TeamOutlined,
     HomeOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    FolderOutlined,
-    CalendarOutlined,
-    FolderOpenOutlined,
-    LineChartOutlined,
     DownOutlined,
+UserOutlined,
 } from "@ant-design/icons-vue";
 import { Inertia } from "@inertiajs/inertia";
 import { ref, watch } from "vue";
@@ -26,27 +20,9 @@ const menus = ref([
         icon: HomeOutlined,
     },
     {
-        title: "Team",
-        icon: TeamOutlined,
-    },
-    {
-        title: "Projects",
-        icon: FolderOutlined,
-        submenu: ["Project 1", "Project 2", "Project 3"],
-    },
-    {
-        title: "Calendar",
-        icon: CalendarOutlined,
-    },
-    {
-        title: "Documents",
-        icon: FolderOpenOutlined,
-        submenu: ["Document 1", "Document 2", "Document 3"],
-    },
-    {
-        title: "Reports",
-        icon: LineChartOutlined,
-    },
+        title: "Users Management",
+        icon: UserOutlined,
+    }
 ]);
 const selectedMenu = ref([Number(props.index)]);
 const openKeys = ref(["sub_menu" + props.index]);
@@ -74,27 +50,10 @@ watch(selectedMenu, (value) => {
             <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedMenu" v-model:openKeys="openKeys"
                 style="width: 240px">
                 <a v-for="(menu, index) of menus">
-                    <a-menu-item v-if="menu.submenu === undefined" :key="index">
-                        <component :is="menu.icon" style="font-size: 25px"></component>
+                    <a-menu-item :key="index">
+                        <component :is="menu.icon"></component>
                         <span v-if="!collapsed" class="nav-text p-2" style="font-size: 15px">{{ menu.title }}</span>
                     </a-menu-item>
-                    <a-sub-menu v-else :key="'sub_menu' + index">
-                        <template #icon>
-                            <component :is="menu.icon" style="font-size: 25px"></component>
-                        </template>
-                        <template #title v-if="!collapsed">{{
-                                menu.title
-                        }}</template>
-                        <a-menu-item v-for="(project, i) of menu.submenu" :key="{
-                            index: index,
-                            project: project,
-                            pro_index: i,
-                        }">{{ project }}</a-menu-item>
-                        <a-sub-menu key="sub1-2" title="Submenu">
-                            <a-menu-item key="5">Option 5</a-menu-item>
-                            <a-menu-item key="6">Option 6</a-menu-item>
-                        </a-sub-menu>
-                    </a-sub-menu>
                 </a>
             </a-menu>
         </a-layout-sider>
@@ -114,7 +73,7 @@ watch(selectedMenu, (value) => {
                 </a-dropdown>
             </a-layout-header>
             <h1 class="text-3xl m-5">
-                {{ props.headerTitle ?? $page.props.request }}
+                {{ props.headerTitle }}
             </h1>
             <div :style="{
                 margin: '24px 16px',

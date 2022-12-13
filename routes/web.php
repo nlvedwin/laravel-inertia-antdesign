@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ShowComponentsController;
 use App\Http\Controllers\UploadImageController;
+use App\Http\Controllers\UsersManagementController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -35,5 +36,8 @@ Route::post('/upload-image', [UploadImageController::class, 'imageUploadPost'])-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/{projectName}/{params}', [ShowComponentsController::class, 'index'])->name('dashboard');
+    Route::post('/users-management', [UsersManagementController::class, 'store']);
+    Route::put('/users-management', [UsersManagementController::class, 'update']);
+    Route::delete('/users-management/{id}', [UsersManagementController::class, 'destroy']);
 });
 require __DIR__.'/auth.php';

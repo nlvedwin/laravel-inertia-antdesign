@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import { ref } from 'vue';
@@ -55,4 +55,4 @@ const chartOptions = ref({ responsive: true })
         <Bar :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
             :plugins="plugins" :css-classes="cssClasses" :styles="styles" :width="width" :height="height" />
     </div>
-</template>
+</template> -->
